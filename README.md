@@ -14,3 +14,5 @@ npm install -D typescript
 ```bash
 npm run dev
 ```
+
+OBS: Lembre-se de atualizar o link da API nos códigos das páginas do projeto. Substitua o link existente pelo novo link da API após configurar o servidor.
