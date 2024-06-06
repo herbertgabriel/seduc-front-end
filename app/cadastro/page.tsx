@@ -27,7 +27,7 @@ export default function Cadastro() {
 
     try {
       const res = await fetch(
-        `https://seduc-api.vercel.app/employees/create`,
+        `http://localhost:3000/employees/create`,
         {
           method: "POST",
           headers: {

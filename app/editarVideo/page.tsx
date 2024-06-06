@@ -38,7 +38,7 @@ const VideoManager: React.FC = () => {
   useEffect(() => {
     const fetchVideoData = async (id: string) => {
       try {
-        const url = `https://seduc-api.vercel.app/videosbncc/filter?id=${id}`;
+        const url = `http://localhost:3000/videosbncc/filter?id=${id}`;
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Erro ao buscar vídeo.");
@@ -117,7 +117,7 @@ const VideoManager: React.FC = () => {
     };
     try {
       const response = await fetch(
-        `https://seduc-api.vercel.app/videosbncc/update/${videoId}`,
+        `http://localhost:3000/videosbncc/update/${videoId}`,
         {
           method: "PUT",
           headers: {
@@ -140,7 +140,7 @@ const VideoManager: React.FC = () => {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `https://seduc-api.vercel.app/videosbncc/delete/${videoId}`,
+        `http://localhost:3000/videosbncc/delete/${videoId}`,
         { method: "DELETE" }
       );
       if (!response.ok) {

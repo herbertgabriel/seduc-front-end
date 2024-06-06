@@ -20,7 +20,7 @@ export default function Home() {
     setError("");
     try {
       const res = await fetch(
-        `https://seduc-api.vercel.app/employees/login`,
+        `http://localhost:3000/employees/login`,
         {
           method: "POST",
           headers: {

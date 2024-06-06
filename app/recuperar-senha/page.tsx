@@ -22,7 +22,7 @@ export default function RecuperarSenha() {
     setSuccess('');
 
     try {
-      const res = await fetch(`https://seduc-api.vercel.app/api/recover-password`, {
+      const res = await fetch(`http://localhost:3000/recover-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

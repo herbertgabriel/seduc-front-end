@@ -65,7 +65,7 @@ const CadastroVideo: React.FC = () => {
     };
     try {
       const response = await fetch(
-        `https://seduc-api.vercel.app/videosbncc/create`,
+        `http://localhost:3000/videosbncc/create`,
         {
           method: "POST",
           headers: {

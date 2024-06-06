@@ -29,7 +29,7 @@ const Consulta: React.FC = () => {
   }, []);
 
   const fetchVideos = () => {
-    let url = `https://seduc-api.vercel.app/videosbncc/filter?`;
+    let url = `http://localhost:3000/videosbncc/filter?`;
 
     if (axisTags.length > 0) {
       const paramsArray = axisTags.map(
