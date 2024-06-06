@@ -15,4 +15,4 @@ npm install -D typescript
 npm run dev
 ```
 
-OBS: Lembre-se de atualizar o link da API nos códigos das páginas do projeto. Substitua o link existente pelo novo link da API após configurar o servidor.
+OBS: Lembre-se de atualizar o link da API nos códigos das páginas do projeto. Substitua o link existente pelo novo link da API após configurar o servidor o link padrão é "http://localhost:3000".
