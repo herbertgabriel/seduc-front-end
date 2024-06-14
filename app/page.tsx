@@ -13,25 +13,21 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
-  
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError("");
     try {
-      const res = await fetch(
-        `http://localhost:3000/employees/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const res = await fetch(`http://localhost:3000/employees/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
       const data = await res.json();
       if (res.ok) {
-        router.push("/consulta"); // Usando router.push para navegação
+        router.push(`/consulta`); // Usando router.push para navegação
       } else {
         setError(data.message || "Falha no login");
       }
@@ -60,7 +56,9 @@ export default function Home() {
           onSubmit={handleLogin}
         >
           <h2 className="text-2xl mb-4 text-center">Login</h2>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
           <input
             type="email"
             placeholder="Seu email principal"
@@ -68,7 +66,9 @@ export default function Home() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <label className="block text-sm font-medium text-gray-700">Senha</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Senha
+          </label>
           <input
             type="password"
             placeholder="Insira uma senha"
@@ -89,28 +89,18 @@ export default function Home() {
           >
             {loading ? "Carregando..." : "Fazer Login"}
           </button>
-          {error && (
-            <p className="mt-4 text-red-500 text-center">{error}</p>
-          )}
+          {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
           <div className="flex justify-between mt-4 text-sm">
             <Link href="/cadastro" legacyBehavior>
-              <a className="text-blue-500 hover:underline">
-                SOLICITAR LOGIN
-              </a>
+              <a className="text-blue-500 hover:underline">SOLICITAR LOGIN</a>
             </Link>
             <Link href="/recuperar-senha" legacyBehavior>
-              <a className="text-blue-500 hover:underline">
-                RECUPERAR SENHA
-              </a>
+              <a className="text-blue-500 hover:underline">RECUPERAR SENHA</a>
             </Link>
           </div>
           <div className="mt-4 text-xs text-gray-500 text-center">
-            <p>
-              Suporte — Termos de Uso — Política de Privacidade
-            </p>
-            <p>
-              Todos os Direitos Reservados | Secretaria de Educação
-            </p>
+            <p>Suporte — Termos de Uso — Política de Privacidade</p>
+            <p>Todos os Direitos Reservados | Secretaria de Educação</p>
           </div>
         </form>
       </div>

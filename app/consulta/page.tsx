@@ -1,4 +1,4 @@
-"use client"; // Isso marca o componente como um Componente de Cliente
+"use client"; // Marca o componente como um Componente de Cliente
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -15,8 +15,8 @@ const Consulta: React.FC = () => {
     title: "",
     url: "",
     stage: "",
-    component: "",
-    year: "",
+    curricularComponent: "",
+    yearTeaching: 0,
     axis: "",
     skills: "",
   });
@@ -32,15 +32,13 @@ const Consulta: React.FC = () => {
     let url = `http://localhost:3000/videosbncc/filter?`;
 
     if (axisTags.length > 0) {
-      const paramsArray = axisTags.map(
-        (val) => `"${encodeURIComponent(val.trim())}"`
-      );
+      const paramsArray = axisTags.map((val) => encodeURIComponent(val.trim()));
       url += `axis=[${paramsArray.join(",")}]&`;
     }
 
     if (skillsTags.length > 0) {
-      const paramsArray = skillsTags.map(
-        (val) => `"${encodeURIComponent(val.trim())}"`
+      const paramsArray = skillsTags.map((val) =>
+        encodeURIComponent(val.trim())
       );
       url += `skills=[${paramsArray.join(",")}]&`;
     }
@@ -54,7 +52,7 @@ const Consulta: React.FC = () => {
     if (url.endsWith("&") || url.endsWith("?")) {
       url = url.slice(0, -1);
     }
-    // alert(url);  //! Para consultar a requisição
+
     fetch(url, {
       method: "GET",
     })
@@ -63,26 +61,14 @@ const Consulta: React.FC = () => {
       .catch((error) => console.error("Erro ao buscar vídeos:", error));
   };
 
-  const handleEdit = (id: string) => {
-    // Handle edit logic
-  };
-
   const handleFilterChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
 
-    // Clear other inputs when a new input is selected
     setFilters((prev) => ({
       ...prev,
-      id: name === "id" ? value : "",
-      title: name === "title" ? value : "",
-      url: name === "url" ? value : "",
-      stage: name === "stage" ? value : "",
-      component: name === "component" ? value : "",
-      year: name === "year" ? value : "",
-      axis: name === "axis" ? value : "",
-      skills: name === "skills" ? value : "",
+      [name]: value,
     }));
   };
 
@@ -106,9 +92,9 @@ const Consulta: React.FC = () => {
 
   const removeTag = (type: string, index: number) => {
     if (type === "axis") {
-      setAxisTags(axisTags.filter((_, i) => i !== index));
+      setAxisTags((prevTags) => prevTags.filter((_, i) => i !== index));
     } else {
-      setSkillsTags(skillsTags.filter((_, i) => i !== index));
+      setSkillsTags((prevTags) => prevTags.filter((_, i) => i !== index));
     }
   };
 
@@ -128,64 +114,65 @@ const Consulta: React.FC = () => {
             <a className="text-blue-500 hover:underline">CADASTRAR VÍDEO</a>
           </Link>
         </nav>
-        <div className="text-blue-500">Bem vindo usuário</div>
+        <div className="text-blue-500">Bem-vindo usuario</div>
       </header>
-      <h1 className="text-3xl mb-4">Consultar</h1>
-      <div className="grid grid-cols-3 gap-4 mb-4">
+      <h1 className="text-3xl mb-4 text-center text-gray-700">Consultar</h1>
+      <div className="grid grid-cols-2 gap-4 mb-4">
         <input
-          name="id"
-          placeholder="ID do vídeo"
-          value={filters.id}
+          name="url"
+          placeholder="URL do vídeo no YouTube"
+          value={filters.url}
           onChange={handleFilterChange}
-          className="col-span-3 mb-2 p-2 border border-gray-300 rounded"
+          className="col-span-2 p-2 border border-gray-300 rounded"
         />
         <input
           name="title"
           placeholder="Título do vídeo no YouTube"
           value={filters.title}
           onChange={handleFilterChange}
-          className="col-span-3 mb-2 p-2 border border-gray-300 rounded"
-        />
-        <input
-          name="url"
-          placeholder="URL do vídeo no YouTube"
-          value={filters.url}
-          onChange={handleFilterChange}
-          className="col-span-3 mb-2 p-2 border border-gray-300 rounded"
+          className="p-2 border border-gray-300 rounded"
         />
         <select
           name="stage"
           value={filters.stage}
           onChange={handleFilterChange}
-          className="col-span-3 mb-2 p-2 border border-gray-300 rounded"
+          className="p-2 border border-gray-300 rounded"
         >
           <option value="">Etapa</option>
           <option value="ensino-medio">Ensino Médio</option>
           <option value="ensino-fundamental">Ensino Fundamental</option>
         </select>
         <input
-          name="component"
+          name="curricularComponent"
           placeholder="Componente Curricular"
-          value={filters.component}
+          value={filters.curricularComponent}
           onChange={handleFilterChange}
-          className="col-span-3 mb-2 p-2 border border-gray-300 rounded"
+          className="p-2 border border-gray-300 rounded"
         />
         <input
-          name="year"
+          name="yearTeaching"
+          type="number"
           placeholder="Ano de Ensino"
-          value={filters.year}
+          value={filters.yearTeaching}
           onChange={handleFilterChange}
-          className="col-span-3 mb-2 p-2 border border-gray-300 rounded"
+          className="p-2 border border-gray-300 rounded"
         />
-        <div className="col-span-3 mb-2 p-2 border border-gray-300 rounded">
-          <input id="axis" name="axis" placeholder="Eixos" className="mr-2" />
-          <button
-            type="button"
-            className="bg-blue-500 text-white p-1 rounded"
-            onClick={() => addTag("axis")}
-          >
-            Adicionar Eixo
-          </button>
+        <div className=" col-span-1 p-2 border border-gray-300 rounded">
+          <div className="flex items-center">
+            <input
+              id="axis"
+              name="axis"
+              placeholder="Eixos"
+              className="flex-grow p-2 border border-gray-300 rounded mr-2"
+            />
+            <button
+              type="button"
+              className="bg-blue-500 text-white p-2 rounded"
+              onClick={() => addTag("axis")}
+            >
+              Adicionar Eixo
+            </button>
+          </div>
           <div className="flex flex-wrap gap-2 mt-2">
             {axisTags.map((tag, index) => (
               <div
@@ -203,20 +190,22 @@ const Consulta: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className="col-span-3 mb-2 p-2 border border-gray-300 rounded">
-          <input
-            id="skills"
-            name="skills"
-            placeholder="Habilidades"
-            className="mr-2"
-          />
-          <button
-            type="button"
-            className="bg-blue-500 text-white p-1 rounded"
-            onClick={() => addTag("skills")}
-          >
-            Adicionar Habilidade
-          </button>
+        <div className="col-span-1 p-2 border border-gray-300 rounded">
+          <div className="flex items-center">
+            <input
+              id="skills"
+              name="skills"
+              placeholder="Habilidades"
+              className="flex-grow p-2 border border-gray-300 rounded mr-2"
+            />
+            <button
+              type="button"
+              className="bg-blue-500 text-white p-2 rounded"
+              onClick={() => addTag("skills")}
+            >
+              Adicionar Habilidade
+            </button>
+          </div>
           <div className="flex flex-wrap gap-2 mt-2">
             {skillsTags.map((tag, index) => (
               <div
@@ -236,12 +225,12 @@ const Consulta: React.FC = () => {
         </div>
       </div>
       <button
-        className="bg-blue-500 text-white p-2 rounded"
+        className="bg-blue-500 text-white p-2 rounded text-lg"
         onClick={handleSearch}
       >
         Consultar
       </button>
-      <Table videos={videos} onEdit={handleEdit} />
+      <Table videos={videos} />
     </div>
   );
 };

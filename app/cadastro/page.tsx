@@ -71,7 +71,7 @@ export default function Cadastro() {
             Nunca foi tão fácil transformar seu conhecimento em oportunidades com o EducaRecife!
           </p>
           <p className="mt-4 text-lg text-black">
-            Estamos aqui para te guiar desde o primeiro passo. Cadastre-se grátis hoje mesmo!
+            Estamos aqui para te guiar desde o primeiro passo.
           </p>
         </div>
       </div>

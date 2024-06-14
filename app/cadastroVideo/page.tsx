@@ -1,4 +1,4 @@
-"use client"; // Isso marca o componente como um Componente de Cliente
+"use client"; 
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -106,7 +106,7 @@ const CadastroVideo: React.FC = () => {
       <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
         <input
           name="title"
-          placeholder="Título do vídeo no YouTube"
+          placeholder="Título do vídeo no YouTube*"
           value={formData.title}
           onChange={handleChange}
           required
@@ -114,7 +114,7 @@ const CadastroVideo: React.FC = () => {
         />
         <input
           name="url"
-          placeholder="URL do vídeo no YouTube"
+          placeholder="URL do vídeo no YouTube*"
           value={formData.url}
           onChange={handleChange}
           required
@@ -127,13 +127,13 @@ const CadastroVideo: React.FC = () => {
           required
           className="w-full p-2 border border-gray-300 rounded"
         >
-          <option value="">Etapa</option>
+          <option value="">Etapa*</option>
           <option value="ensino-medio">Ensino Infantil</option>
           <option value="ensino-fundamental">Ensino Fundamental</option>
         </select>
         <input
           name="curricularComponent"
-          placeholder="Componente Curricular"
+          placeholder="Componente Curricular*"
           value={formData.curricularComponent}
           onChange={handleChange}
           required
@@ -142,7 +142,7 @@ const CadastroVideo: React.FC = () => {
         <input
           name="yearTeaching"
           type="number"
-          placeholder="Ano de Ensino"
+          placeholder="Ano de Ensino*"
           value={formData.yearTeaching}
           onChange={handleChange}
           required
@@ -153,7 +153,7 @@ const CadastroVideo: React.FC = () => {
           <div className="flex items-center">
             <input
               name="axisInput"
-              placeholder="Novo Eixo"
+              placeholder="Novo Eixo*"
               value={formData.axisInput}
               onChange={handleChange}
               className="flex-grow p-2 border border-gray-300 rounded mr-2"
@@ -189,7 +189,7 @@ const CadastroVideo: React.FC = () => {
           <div className="flex items-center">
             <input
               name="skillsInput"
-              placeholder="Nova Habilidade"
+              placeholder="Nova Habilidade*"
               value={formData.skillsInput}
               onChange={handleChange}
               className="flex-grow p-2 border border-gray-300 rounded mr-2"
@@ -228,7 +228,7 @@ const CadastroVideo: React.FC = () => {
           Adicionar
         </button>
       </form>
-      <p className="text-center mt-4">{resultMessage}</p>
+      <p className="text-center mt-4 font-semibold">{resultMessage}</p>
     </div>
   );
 };

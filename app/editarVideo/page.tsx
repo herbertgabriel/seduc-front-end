@@ -15,6 +15,8 @@ interface FormData {
   skills: string[];
   axisInput: string;
   skillsInput: string;
+  createdAt?: string;
+  updateAt?: string;
 }
 
 const VideoManager: React.FC = () => {
@@ -29,10 +31,14 @@ const VideoManager: React.FC = () => {
     skills: [],
     axisInput: "",
     skillsInput: "",
+    createdAt: "",
+    updateAt: "",
   });
 
   const videoId =
-  typeof window !== "undefined" ? window.location.search.substring(1).replace(/[?=]/g, '') : "";
+    typeof window !== "undefined"
+      ? window.location.search.substring(1).replace(/[?=]/g, "")
+      : "";
 
   const [resultMessage, setResultMessage] = useState<string>("");
   useEffect(() => {
@@ -55,6 +61,8 @@ const VideoManager: React.FC = () => {
             yearTeaching,
             axis,
             skills,
+            createdAt,
+            updateAt,
           } = data[0];
           setFormData({
             url: url || "",
@@ -66,6 +74,8 @@ const VideoManager: React.FC = () => {
             skills: skills || [],
             axisInput: "",
             skillsInput: "",
+            createdAt: createdAt || "",
+            updateAt: updateAt || "",
           });
         } else {
           console.error("Dados retornados no formato incorreto:", data);
@@ -82,7 +92,15 @@ const VideoManager: React.FC = () => {
   if (isLoading) {
     return <div>Carregando...</div>;
   }
-
+  const formatDate = (dateString: string | undefined) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -149,7 +167,7 @@ const VideoManager: React.FC = () => {
       setResultMessage("Vídeo deletado com sucesso!");
       setTimeout(() => {
         window.location.href = "/consulta";
-      }, 5000); //! Redirecionar para a pag de consulta dps 5 segundos
+      }, 2000); //! Redirecionar para a pag de consulta dps 2 segundos
     } catch (error) {
       console.error("Erro ao deletar vídeo:", error);
       setResultMessage("Erro ao deletar vídeo.");
@@ -172,34 +190,26 @@ const VideoManager: React.FC = () => {
             <div className="text-blue-500 hover:underline">CADASTRAR VÍDEO</div>
           </Link>
         </nav>
-        <div className="text-blue-500">Bem vindo usuário</div>
+        <div className="text-blue-500">Bem vindo usuario</div>
       </header>
       <h1 className="text-3xl mb-4 text-center text-gray-700">
         Gerenciar Vídeo
       </h1>
-      <div className="flex justify-center items-start space-x-8">
-        <div className="w-1/3">
+      <div className="flex justify-center">
+        <div>
           <img
             src={`https://img.youtube.com/vi/${youtubeVideoId}/0.jpg`}
             alt="Thumbnail do vídeo"
-            className="object-cover h-48 w-96 rounded h-48 w-96"
+            className=" mr-12 object-cover h-48 w-96 rounded h-48 w-96"
           />
           <p className="mt-2 text-sm text-gray-600">
-            Cadastrado em: 17/05/2024
+            Cadastrado em: {formatDate(formData.createdAt)}
           </p>
           <p className="text-sm text-gray-600">
-            Última Atualização em: 17/05/2024
+            Última Atualização em: {formatDate(formData.updateAt)}
           </p>
         </div>
         <form onSubmit={handleSubmit} className="w-2/3 grid grid-cols-2 gap-4">
-          <input
-            name="title"
-            placeholder="Título do vídeo no YouTube"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            className="col-span-2 p-2 border border-gray-300 rounded"
-          />
           <input
             name="url"
             placeholder="URL do vídeo no YouTube"
@@ -209,8 +219,9 @@ const VideoManager: React.FC = () => {
             className="col-span-2 p-2 border border-gray-300 rounded"
           />
           <input
-            name="registeredBy"
-            placeholder="Cadastrado por"
+            name="title"
+            placeholder="Título do vídeo no YouTube"
+            value={formData.title}
             onChange={handleChange}
             required
             className="p-2 border border-gray-300 rounded"
@@ -328,7 +339,7 @@ const VideoManager: React.FC = () => {
           </div>
         </form>
       </div>
-      <p className="text-center mt-4">{resultMessage}</p>
+      <p className="text-center mt-4 font-semibold">{resultMessage}</p>
     </div>
   );
 };
