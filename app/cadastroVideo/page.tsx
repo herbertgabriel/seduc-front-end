@@ -65,7 +65,7 @@ const CadastroVideo: React.FC = () => {
     };
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/videosbncc/create`,
+        `http://localhost:3000/videosbncc/create`,
         {
           method: "POST",
           headers: {
