@@ -20,6 +20,7 @@ interface FormData {
 }
 
 const VideoManager: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [formData, setFormData] = useState<FormData>({
     url: "",
@@ -182,25 +183,53 @@ const VideoManager: React.FC = () => {
     <div className="text-black min-h-screen bg-gray-100 p-8">
       <header className="flex justify-between items-center mb-4">
         <Image src={logo} alt="EducaRecife Logo" width={150} height={50} />
-        <nav className="flex space-x-4">
+        <nav className="hidden md:flex space-x-4">
           <Link href="/consulta" passHref>
-            <div className="text-blue-500 hover:underline">CONSULTAR</div>
+            <div className="cursor-pointer text-blue-500">CONSULTAR</div>
           </Link>
           <Link href="/cadastroVideo" passHref>
-            <div className="text-blue-500 hover:underline">CADASTRAR VÍDEO</div>
+            <div className="cursor-pointer text-blue-500">CADASTRAR</div>
           </Link>
         </nav>
-        <div className="text-blue-500">Bem vindo usuario</div>
+        <div className="md:hidden">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="flex flex-col items-center space-y-1.5"
+          >
+            {isMenuOpen ? (
+              <span className="block w-8 h-0.5 bg-blue-500 -translate-x-1.5 translate-y-1 rotate-45"></span>
+            ) : (
+              <>
+                <span className="block w-8 h-0.5 bg-blue-500"></span>
+                <span className="block w-8 h-0.5 bg-blue-500"></span>
+                <span className="block w-8 h-0.5 bg-blue-500"></span>
+              </>
+            )}
+            {isMenuOpen ? (
+              <span className="block w-8 h-0.5 bg-blue-500 -translate-x-1.5 -translate-y-1 -rotate-45"></span>
+            ) : null}
+          </button>
+          {isMenuOpen && (
+            <div className="absolute right-5 mt-5 w-48 bg-blue-500 shadow-lg rounded">
+              <Link href="/consulta" passHref>
+                <div className="block px-4 py-2 text-white">CONSULTAR</div>
+              </Link>
+              <Link href="/cadastroVideo" passHref>
+                <div className="block px-4 py-2 text-white">CADASTRAR</div>
+              </Link>
+            </div>
+          )}
+        </div>
       </header>
-      <h1 className="text-3xl mb-4 text-center text-gray-700">
+      <h1 className="text-3xl mb-4 text-center text-blue-500 font-bold">
         Gerenciar Vídeo
       </h1>
-      <div className="flex justify-center">
-        <div>
+      <div className="flex flex-col lg:flex-row justify-center">
+        <div className="lg:mr-12 mb-4 lg:mb-0">
           <img
             src={`https://img.youtube.com/vi/${youtubeVideoId}/0.jpg`}
             alt="Thumbnail do vídeo"
-            className=" mr-12 object-cover h-48 w-96 rounded h-48 w-96"
+            className="object-cover h-48 w-96 rounded"
           />
           <p className="mt-2 text-sm text-gray-600">
             Cadastrado em: {formatDate(formData.createdAt)}
@@ -209,14 +238,17 @@ const VideoManager: React.FC = () => {
             Última Atualização em: {formatDate(formData.updateAt)}
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="w-2/3 grid grid-cols-2 gap-4">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
           <input
             name="url"
             placeholder="URL do vídeo no YouTube"
             value={formData.url}
             onChange={handleChange}
             required
-            className="col-span-2 p-2 border border-gray-300 rounded"
+            className="col-span-1 md:col-span-2 p-2 border border-gray-300 rounded"
           />
           <input
             name="title"
@@ -322,7 +354,7 @@ const VideoManager: React.FC = () => {
               ))}
             </div>
           </div>
-          <div className="col-span-2 flex justify-end space-x-4">
+          <div className="col-span-1 md:col-span-2 flex justify-end space-x-4">
             <button
               type="button"
               onClick={handleDelete}
@@ -343,4 +375,5 @@ const VideoManager: React.FC = () => {
     </div>
   );
 };
+
 export default VideoManager;

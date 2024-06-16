@@ -23,6 +23,7 @@ const Consulta: React.FC = () => {
 
   const [axisTags, setAxisTags] = useState<string[]>([]);
   const [skillsTags, setSkillsTags] = useState<string[]>([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     fetchVideos();
@@ -103,27 +104,59 @@ const Consulta: React.FC = () => {
   };
 
   return (
-    <div className="text-black min-h-screen bg-gray-100 p-8">
+    <div className="text-black min-h-screen bg-gray-100 p-4 md:p-8">
       <header className="flex justify-between items-center mb-4">
-        <Image src={logo} alt="EducaRecife Logo" width={150} height={50} />
-        <nav>
-          <Link href="/consulta" legacyBehavior>
-            <a className="text-blue-500 hover:underline mr-4">CONSULTAR</a>
+        <div className="flex items-center">
+          <Image src={logo} alt="EducaRecife Logo" width={150} height={50} />
+        </div>
+        <nav className="hidden md:flex space-x-4">
+          <Link href="/consulta" passHref>
+            <div className="cursor-pointer text-blue-500">CONSULTAR</div>
           </Link>
-          <Link href="/cadastroVideo" legacyBehavior>
-            <a className="text-blue-500 hover:underline">CADASTRAR VÍDEO</a>
+          <Link href="/cadastroVideo" passHref>
+            <div className="cursor-pointer text-blue-500">CADASTRAR</div>
           </Link>
         </nav>
-        <div className="text-blue-500">Bem-vindo usuario</div>
+        <div className="md:hidden">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="flex flex-col items-center space-y-1.5"
+          >
+            {isMenuOpen ? (
+              <span className="block w-8 h-0.5 bg-blue-500 -translate-x-1.5 translate-y-1 rotate-45"></span>
+            ) : (
+              <>
+                <span className="block w-8 h-0.5 bg-blue-500"></span>
+                <span className="block w-8 h-0.5 bg-blue-500"></span>
+                <span className="block w-8 h-0.5 bg-blue-500"></span>
+              </>
+            )}
+            {isMenuOpen ? (
+              <span className="block w-8 h-0.5 bg-blue-500 -translate-x-1.5 -translate-y-1 -rotate-45"></span>
+            ) : null}
+          </button>
+          {isMenuOpen && (
+            <div className="absolute right-5 mt-5 w-48 bg-blue-500 shadow-lg rounded">
+              <Link href="/consulta" passHref>
+                <div className="block px-4 py-2 text-white">CONSULTAR</div>
+              </Link>
+              <Link href="/cadastroVideo" passHref>
+                <div className="block px-4 py-2 text-white">CADASTRAR</div>
+              </Link>
+            </div>
+          )}
+        </div>
       </header>
-      <h1 className="text-3xl mb-4 text-center text-gray-700">Consultar</h1>
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <h1 className="text-3xl mb-4 text-center text-blue-500 font-bold">
+        Consultar vídeo
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <input
           name="url"
           placeholder="URL do vídeo no YouTube"
           value={filters.url}
           onChange={handleFilterChange}
-          className="col-span-2 p-2 border border-gray-300 rounded"
+          className="col-span-1 md:col-span-2 p-2 border border-gray-300 rounded"
         />
         <input
           name="title"
@@ -157,7 +190,7 @@ const Consulta: React.FC = () => {
           onChange={handleFilterChange}
           className="p-2 border border-gray-300 rounded"
         />
-        <div className=" col-span-1 p-2 border border-gray-300 rounded">
+        <div className="col-span-1 p-2 border border-gray-300 rounded">
           <div className="flex items-center">
             <input
               id="axis"
@@ -225,7 +258,7 @@ const Consulta: React.FC = () => {
         </div>
       </div>
       <button
-        className="bg-blue-500 text-white p-2 rounded text-lg"
+        className="bg-blue-500 text-white p-2 rounded text-lg w-full md:w-auto"
         onClick={handleSearch}
       >
         Consultar

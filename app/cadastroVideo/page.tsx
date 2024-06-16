@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -65,7 +65,7 @@ const CadastroVideo: React.FC = () => {
     };
     try {
       const response = await fetch(
-        `http://localhost:3000/videosbncc/create`,
+        `${process.env.NEXT_PUBLIC_API_URL}/videosbncc/create`,
         {
           method: "POST",
           headers: {
@@ -86,27 +86,59 @@ const CadastroVideo: React.FC = () => {
     }
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <div className="text-black min-h-screen bg-gray-100 p-8">
       <header className="flex justify-between items-center mb-4">
-        <Image src={logo} alt="EducaRecife Logo" width={150} height={50} />
-        <nav className="flex space-x-4">
+        <div className="flex items-center">
+          <Image src={logo} alt="EducaRecife Logo" width={150} height={50} />
+        </div>
+        <nav className="hidden md:flex space-x-4">
           <Link href="/consulta" passHref>
-            <div className="text-blue-500 hover:underline">CONSULTAR</div>
+            <div className="cursor-pointer text-blue-500">CONSULTAR</div>
           </Link>
           <Link href="/cadastroVideo" passHref>
-            <div className="text-blue-500 hover:underline">CADASTRAR</div>
+            <div className="cursor-pointer text-blue-500">CADASTRAR</div>
           </Link>
         </nav>
-        <div className="text-blue-500">Bem vindo usuário</div>
+        <div className="md:hidden">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="flex flex-col items-center space-y-1.5"
+          >
+            {isMenuOpen ? (
+              <span className="block w-8 h-0.5 bg-blue-500 -translate-x-1.5 translate-y-1 rotate-45"></span>
+            ) : (
+              <>
+                <span className="block w-8 h-0.5 bg-blue-500"></span>
+                <span className="block w-8 h-0.5 bg-blue-500"></span>
+                <span className="block w-8 h-0.5 bg-blue-500"></span>
+              </>
+            )}
+            {isMenuOpen ? (
+              <span className="block w-8 h-0.5 bg-blue-500 -translate-x-1.5 -translate-y-1 -rotate-45"></span>
+            ) : null}
+          </button>
+          {isMenuOpen && (
+            <div className="absolute right-5 mt-5 w-48 bg-blue-500 shadow-lg rounded">
+              <Link href="/consulta" passHref>
+                <div className="block px-4 py-2 text-white">CONSULTAR</div>
+              </Link>
+              <Link href="/cadastroVideo" passHref>
+                <div className="block px-4 py-2 text-white">CADASTRAR</div>
+              </Link>
+            </div>
+          )}
+        </div>
       </header>
-      <h1 className="text-3xl mb-4 text-center text-gray-700">
+      <h1 className="text-3xl mb-4 text-center text-blue-500 font-bold">
         Cadastrar vídeo
       </h1>
       <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
         <input
           name="title"
-          placeholder="Título do vídeo no YouTube*"
+          placeholder="Título do vídeo no YouTube"
           value={formData.title}
           onChange={handleChange}
           required
@@ -114,7 +146,7 @@ const CadastroVideo: React.FC = () => {
         />
         <input
           name="url"
-          placeholder="URL do vídeo no YouTube*"
+          placeholder="URL do vídeo no YouTube"
           value={formData.url}
           onChange={handleChange}
           required
@@ -127,13 +159,13 @@ const CadastroVideo: React.FC = () => {
           required
           className="w-full p-2 border border-gray-300 rounded"
         >
-          <option value="">Etapa*</option>
+          <option value="">Etapa</option>
           <option value="ensino-medio">Ensino Infantil</option>
           <option value="ensino-fundamental">Ensino Fundamental</option>
         </select>
         <input
           name="curricularComponent"
-          placeholder="Componente Curricular*"
+          placeholder="Componente Curricular"
           value={formData.curricularComponent}
           onChange={handleChange}
           required
@@ -142,18 +174,19 @@ const CadastroVideo: React.FC = () => {
         <input
           name="yearTeaching"
           type="number"
-          placeholder="Ano de Ensino*"
+          placeholder="Ano de Ensino"
           value={formData.yearTeaching}
           onChange={handleChange}
           required
           className="w-full p-2 border border-gray-300 rounded"
         />
 
+        {/* Input para adicionar novo eixo */}
         <div className="mb-2 p-2 border border-gray-300 rounded">
           <div className="flex items-center">
             <input
               name="axisInput"
-              placeholder="Novo Eixo*"
+              placeholder="Novo Eixo"
               value={formData.axisInput}
               onChange={handleChange}
               className="flex-grow p-2 border border-gray-300 rounded mr-2"
@@ -189,7 +222,7 @@ const CadastroVideo: React.FC = () => {
           <div className="flex items-center">
             <input
               name="skillsInput"
-              placeholder="Nova Habilidade*"
+              placeholder="Nova Habilidade"
               value={formData.skillsInput}
               onChange={handleChange}
               className="flex-grow p-2 border border-gray-300 rounded mr-2"
@@ -228,7 +261,7 @@ const CadastroVideo: React.FC = () => {
           Adicionar
         </button>
       </form>
-      <p className="text-center mt-4 font-semibold">{resultMessage}</p>
+      <p className="text-center mt-4">{resultMessage}</p>
     </div>
   );
 };
